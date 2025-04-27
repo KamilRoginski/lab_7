@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome to My Flask Site</h1>
+<h2>Today's Highlights</h2>
+<h3>Current Date and Time</h3>
+<p>Below is the current server date and time:</p>
+<p><strong>{{ now.strftime('%Y-%m-%d %H:%M:%S') }}</strong></p>
+
+<ol>
+  <li>Learn Flask basics</li>
+  <li>Build templates</li>
+  <li>Deploy application</li>
+</ol>
+
+<ul>
+  <li>Flask</li>
+  <li>Jinja2</li>
+  <li>CSS</li>
+</ul>
+
+<h2>Gallery</h2>
+<img src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Image 1">
+<img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Image 2">
+<img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Image 3">
+<img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Image 4">
+
+<h2>Data Table</h2>
+<table>
+  <tr><th>Product</th><th>Price</th><th>Stock</th></tr>
+  <tr><td>Widget A</td><td>$10</td><td>100</td></tr>
+  <tr><td>Widget B</td><td>$15</td><td>50</td></tr>
+  <tr><td>Widget C</td><td>$20</td><td>75</td></tr>
+  <tr><td>Widget D</td><td>$25</td><td>20</td></tr>
+</table>
+
+<p>Check out these resources:</p>
+<ul>
+  <li><a href="https://flask.palletsprojects.com/">Flask Documentation</a></li>
+  <li><a href="https://jinja.palletsprojects.com/">Jinja2 Documentation</a></li>
+  <li><a href="https://www.python.org/">Python Official Site</a></li>
+</ul>
+{% endblock %}
