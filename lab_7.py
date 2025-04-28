@@ -8,13 +8,14 @@ Lab 7: Core Flask application that implements user registration, login, session 
 route protection, flash messaging, and a debug endpoint to inspect registered users.
 """
 
+import os
+import re
+from functools import wraps
 from datetime import datetime as dt
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-import re
 
 app = Flask(__name__)
-import os
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 
 # In-memory user store: {username: password_hash}
@@ -44,7 +45,6 @@ def password_complexity(password):
 
 
 def login_required(f):
-    from functools import wraps
     @wraps(f)
     def wrapped(*args, **kwargs):
         if 'username' not in session:
