@@ -1,5 +1,5 @@
 #Name: Kamil Roginski
-#Date: 27 APR 2025
+#Date: 28 APR 2025
 #Professor: Mark Babcock
 #Course: CYOP 300
 
@@ -23,13 +23,7 @@ users = {}
 
 def password_complexity(password):
     """
-    Check password complexity requirements:
-    - Minimum length: 12 characters
-    - At least one uppercase letter
-    - At least one lowercase letter
-    - At least one digit
-    - At least one special character
-    If any requirement is not met, returns False
+    Return True if the password meets minimum length and character-type requirements.
     """
     if len(password) < 12:
         return False
@@ -45,6 +39,9 @@ def password_complexity(password):
 
 
 def login_required(f):
+    """
+    Decorator that redirects to login if no user is currently authenticated.
+    """
     @wraps(f)
     def wrapped(*args, **kwargs):
         if 'username' not in session:
@@ -56,21 +53,33 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
+    """
+    Render the home page showing the current date and time to a logged-in user.
+    """
     now = dt.now()
     return render_template('home.html', now=now)
 
 @app.route('/about')
 @login_required
 def about():
+    """
+    Render the about page for authenticated users.
+    """
     return render_template('about.html')
 
 @app.route('/contact')
 @login_required
 def contact():
+    """
+    Render the contact page for authenticated users.
+    """
     return render_template('contact.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Handle user sign-up by validating inputs, storing a hashed password, and flashing status.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -89,6 +98,9 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Authenticate a user by verifying their credentials and starting a session.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -98,12 +110,14 @@ def login():
             flash('Logged in successfully.')
             next_page = request.args.get('next')
             return redirect(next_page or url_for('home'))
-        else:
-            flash('Invalid username or password.')
+        flash('Invalid username or password.')
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
+    """
+    Log out the current user by clearing their session and redirecting to login.
+    """
     session.pop('username', None)
     flash('You have been logged out.')
     return redirect(url_for('login'))
